@@ -38,4 +38,22 @@ defmodule MyList do
 
   defp _calculate_caesar([h], n) when h + n > 122, do: rem(h + n, 122) + 96
   defp _calculate_caesar([h], n) when h + n <= 122, do: h + n
+
+  def span( from, to ) do
+    _span([], to, from)
+  end
+
+  defp _span( list, from, from ), do: [ from | list ]
+  defp _span( list, to, from) do
+    _span( [ to | list ], to - 1, from)
+  end
+
+  def other_span( from, to ) when from > to, do: []
+  def other_span( from, to ) do
+    [from | other_span( from + 1, to )]
+  end
 end
+
+# Use a comprehension to get all prime numbers.
+is_prime = fn x -> x == 2 end
+for x <- MyList.span( 1, 10 ), is_prime.(x), do: IO.puts x
